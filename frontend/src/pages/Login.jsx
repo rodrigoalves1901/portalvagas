@@ -4,14 +4,32 @@ import { useAppContext } from '../context/AppContext';
 
 export function Login() {
   const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const { setUser } = useAppContext();
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (username.trim()) {
-      setUser({ name: username });
-      navigate('/dashboard');
+    if (username.trim() && password.trim()) {
+      try {
+        const response = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          setUser({ name: username });
+          navigate('/dashboard');
+        } else {
+          setError('Senha incorreta!');
+        }
+      } catch (err) {
+        setError('Erro ao conectar com o servidor');
+      }
     }
   };
 
@@ -61,7 +79,7 @@ export function Login() {
             />
           </div>
           
-          {error && <p className="text-red-500 text-sm">{error}</p>}
+          {error && <p className="text-red-500 text-sm font-bold uppercase tracking-tighter">{error}</p>}
           
           <button 
             type="submit" 
