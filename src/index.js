@@ -101,7 +101,8 @@ app.post('/api/telegram/test', async (req, res) => {
 const PORT = process.env.PORT || 3000;
 // Rota para o Frontend (SPA Catch-all)
 if (process.env.NODE_ENV === 'production') {
-  app.get('*', (req, res) => {
+  // Rota catch-all para SPA (React Router)
+  app.get('(.*)', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend/dist/index.html'));
   });
 }
