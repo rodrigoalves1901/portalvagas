@@ -27,6 +27,19 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'frontend/dist')));
 }
 
+// ─── AUTENTICAÇÃO ──────────────────────────────────────────
+
+app.post('/api/login', (req, res) => {
+  const { password } = req.body;
+  const adminPassword = process.env.ADMIN_PASSWORD || 'admin123'; // Senha padrão se não configurar
+  
+  if (password === adminPassword) {
+    res.json({ success: true });
+  } else {
+    res.status(401).json({ success: false, error: 'Senha incorreta' });
+  }
+});
+
 // ─── BUSCA DE VAGAS ────────────────────────────────────────
 
 app.post('/api/jobs/search', async (req, res) => {

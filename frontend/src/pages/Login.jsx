@@ -49,9 +49,19 @@ export function Login() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
+              className="w-full bg-transparent border-b-2 border-white/20 text-3xl font-bold text-white placeholder-white/10 focus:outline-none focus:border-[#ccff00] transition-colors py-2 mb-6"
+            />
+            <input 
+              type="password" 
+              placeholder="SENHA"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
               className="w-full bg-transparent border-b-2 border-white/20 text-3xl font-bold text-white placeholder-white/10 focus:outline-none focus:border-[#ccff00] transition-colors py-2"
             />
           </div>
+          
+          {error && <p className="text-red-500 text-sm">{error}</p>}
           
           <button 
             type="submit" 
